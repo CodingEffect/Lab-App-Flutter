@@ -76,6 +76,29 @@ class MyButton extends StatelessWidget{
 }
 
 
+class CountDisplay extends StatelessWidget {
+  const CountDisplay({required this.count, Key? key}) : super(key: key);
+    final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('Count $count');
+  }
+}
+
+class CounterIncrementor extends StatelessWidget {
+  const CounterIncrementor({required this.onPressed, Key? key}) : super(key: key);
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(onPressed: onPressed, child: Text('Increment'));
+  }
+}
+
+
+
+
 class Counter extends StatefulWidget {
   const Counter({Key? key}) : super(key: key);
 
@@ -97,9 +120,10 @@ class _CounterState extends State<Counter> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ElevatedButton(onPressed: _increment, child: const Text('Increment')),
+        CounterIncrementor(onPressed: _increment),
+        
         const SizedBox(width: 18),
-        Text('Count : $_counter'),
+        CountDisplay(count: _counter),
       ]
     );
   }
