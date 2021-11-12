@@ -4,72 +4,103 @@ void main() {
   runApp(
     const MaterialApp(
       title: 'My lab app',
-      home: LabScaffold()
+      home: Scaffold(
+        body: Center(
+          child: Counter()
+        ),
+      )
     )
   );
 }
 
 
-
-class MyAppLab extends StatelessWidget{
-  const MyAppLab({required this.title, Key? key}) : super(key: key);
-
-  final Widget title;
+class MyLabApp extends StatelessWidget{
+  const MyLabApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 105.0,
-      padding: const EdgeInsets.symmetric(vertical: 30.0),
-      decoration: BoxDecoration(color: Colors.purple),
+    return Scaffold(
+      appBar: AppBar(
+        leading: const IconButton(
+          onPressed: null,
+          icon: Icon(Icons.menu),
+          tooltip: 'Menu',
+          ),
+        title: const Text(
+          'LAb app'
+        ),
 
-      child: Row(
-        children: [
-          const IconButton(
-            icon: Icon(Icons.menu),
-            tooltip: 'Show menu',
-            onPressed: null,
-          ),
-          Expanded(
-            child: title,
-          ),
-          const IconButton(
-            icon: Icon(Icons.search),
-            tooltip: 'Search',
-            onPressed: null,
+        actions: const [
+          IconButton(onPressed: null, icon: Icon(Icons.search), tooltip: 'Search',)
+        ],
+      ),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const <Widget>[
+          const Text('Hello world'),
+          const Center(
+            child: MyButton(),
           )
         ],
       ),
+      floatingActionButton:  const FloatingActionButton(onPressed: null, tooltip: 'Plus', child: Icon(Icons.add)),
     );
   }
-
 }
 
 
+class MyButton extends StatelessWidget{
+  const MyButton({Key? key}) : super(key : key);
 
-class LabScaffold extends StatelessWidget{
-  const LabScaffold({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context){
+    return GestureDetector(
+      onTap: () {
+        print('Button taped');
+      },
+      child: Container(
+        height: 70.0,
+        padding: const EdgeInsets.all(8.0),
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: Colors.lightGreen[500],
+        ),
+        child: const Center(
+          child: Text('Click')
+        ),
+
+      )
+    );
+  }
+}
+
+
+class Counter extends StatefulWidget {
+  const Counter({Key? key}) : super(key: key);
+
+  @override
+  _CounterState createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int _counter = 0;
+
+  void _increment(){
+    setState(() {
+      _counter++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: [
-          MyAppLab(
-              title: Text(
-                'My Lab App',
-                style: Theme.of(context)
-                .primaryTextTheme
-                .headline6,
-              ),
-          ),
-          const Expanded(
-              child: Center(
-                  child: Text('Hello friend')
-              )
-          )
-        ],
-      )
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        ElevatedButton(onPressed: _increment, child: const Text('Increment')),
+        const SizedBox(width: 18),
+        Text('Count : $_counter'),
+      ]
     );
   }
 }
